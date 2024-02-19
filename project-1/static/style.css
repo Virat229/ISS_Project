@@ -1,0 +1,207 @@
+@font-face {
+    font-family: myfont;
+    src: url(Bubble.ttf);
+}
+@font-face {
+    font-family: myfont2;
+    src: url(Stencilia.ttf);
+}
+
+body {
+    font-family: myfont;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+.name{
+    font-family: myfont2;
+    font-size: 35px;
+    margin-top: -35%;
+    color:#B6DCFE
+}
+
+.name2 {
+    font-family: myfont2;
+    font-size: 35px;
+    position: absolute;
+    margin-top: -35%;
+    left: 49%;
+    z-index: 2;
+    color:white;
+}
+
+.back-pic {
+    width: 60%; 
+    height: 100%;
+    background-image: url('background_login.jpeg');
+    background-size: cover;
+}
+
+.pic {
+    position: absolute;
+    top: 50%;
+    left: 75%;
+    transform: translate(-50%, -50%);
+    width: 40vw; 
+    height: 50vh; 
+    background-image: url('login.png');
+    background-size: cover;
+}
+
+.back-pic2 {
+    width: 60%; 
+    height: 100%;
+    background-image: url('background_signup.jpeg'); 
+    background-size: cover;
+}
+
+.pic2 {
+    position: absolute;
+    top: 50%;
+    left: 75%;
+    transform: translate(-50%, -50%);
+    width: 40vw; 
+    height: 50vh;
+    background-image: url('signup.png');
+    background-size: cover;
+}
+
+
+.logo {
+    position: absolute;
+  top: -211px;
+  left: -211px;
+  scale: 0.2;
+}
+
+.container {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+
+#login-form, #signup-tab {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+}
+
+.forgot-password-link {
+    color: black;
+    cursor: pointer;
+    text-decoration: underline;
+    margin-top: 8px;
+}
+
+.forgot-password-link:hover {
+    color: #2980b9;
+}
+
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 8px;
+}
+
+input {
+    padding: 8px;
+    margin-bottom: 16px;
+}
+
+button {
+    padding: 10px;
+    background-color: #CDEDFD ;
+    color: rgb(15, 15, 78);
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-bottom: 10px; 
+    font-family: myfont;
+}
+
+
+button:hover {
+    background-color:#B6DCFE;
+}
+
+
+.password-input-container {
+    position: relative;
+}
+
+.password-input-container2 {
+    position: relative;
+}
+
+.confirm-password {
+    position: relative;
+}
+
+.password-input-container ,.password-input-container2, .confirm-password{
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.eye-button {
+    padding: 8px;
+    background-color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.eye-button:hover {
+    background-color: #f0f0f0;
+}
+
+.password-input-container, .password-input-container2, .confirm-password {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.eye-button {
+    padding: 8px;
+    background-color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.eye-button:hover {
+    background-color: #f0f0f0;
+}
+
+.forgot-password-button {
+    background-color: transparent;
+    border: none;
+    color: black;
+    cursor: pointer;
+    text-decoration: underline;
+    text-align:left;
+}
+
+.forgot-password-button:hover {
+    color: #f0f0f0;
+}
+
+#errorMessage {
+    color: red;
+    margin-top: 10px;
+}
+
+
+

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Login</title>
+    <script src="static/script.js"></script>
+
+</head>
+<body>
+    <div class="container">
+        <form id="login-form" action="/login" method="POST">
+            <h2>Login</h2>
+            <form id="login-form">
+                <label for="login-username">Username:</label>
+                <input type="text" id="login-username" name="username"  required>
+                <label for="login-password">Password:</label>
+                <div class="password-input-container">
+                    <input type="password" id="login-password" name="password" required>
+                    <button type="button" class="eye-button" onclick="togglePassword('login-password')">👁️</button>
+                </div>
+                <p class="forgot-password-link" onclick="forgotPassword()">Forgot Password?</p>
+                <button type="submit">Login</button>
+                <button type="button" onclick="openSignupPage()">Sign Up</button>
+                <button type="button" onclick="adminLogin()">Admin Login</button>
+            </form>
+        </div>
+    </div>
+    <p class="name">SLIDE </p>
+    <div class="back-pic"></div>
+    <p class="name2">CRAFT </p>
+    <div class="pic"></div>
+    <div class="logo">
+        <img src="logo_final.png" alt="Your Logo">
+    </div>
+</body>
+
+</html>

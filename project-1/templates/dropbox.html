@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiple Image Upload with Loading</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles_drop.css') }}">
+</head>
+<body>
+  
+<div class="navbar">
+   
+    <div class="logo-name" style="margin-top: 10px;"> SLIDE CRAFT</div>
+   
+    <a href="#" onclick="openTab('Pictures')">PICTURES</a>
+    <a href="#" onclick="openTab('Videos')">VIDEOS</a>
+    <a href="#" onclick="openTab('Preview')">PREVIEW</a>
+</div>
+
+<div class="cube-container">
+    <div class="cube">
+        <div class="face front"><b>Best</b></div>
+        <div class="face back"><b>Show</b></div>
+        <div class="face right"><b>Your</b></div>
+        <div class="face left"><b>Creativity</b></div>
+        <div class="face top"></div>
+        <div class="face bottom"></div>
+    </div>
+</div>
+
+<div id="Pictures" class="tabcontent" style="display: block;">
+    <div class="image-drop-area" ondragover="handleDragOver(event)" ondrop="handleDrop(event)">
+        <p>Drag and drop your images here</p>
+        <input type="file" id="upload-input" accept="image/*" multiple style="display: none;" onchange="handleFileSelect(event)">
+        
+        <button id="select" style="color: black;" onclick="document.getElementById('upload-input').click()">Select Images</button>
+        <div id="preview" style="text-align: center;"></div>
+        <div id="loading" style="text-align: center;">
+            <div class="loader"></div>
+            Uploading...
+        </div>
+    </div>
+</div>
+
+<div id="Videos" class="tabcontent">
+    <div id="video-container" style="text-align: center;">
+        <label for="transition-dropdown" style="color: black;font-family: myFont;" >Select Transition Effect:</label>
+        <select id="transition-dropdown" style="color: black;">
+            <option value="fade">Fade</option>
+            <option value="slide">Slide</option>
+            <option value="zoom">Zoom</option>
+        </select>
+        <label for="video-quality" style="color: black;font-family: myFont;">Select Video Quality:</label>
+        <select id="video-quality" style="color: black;">
+            <option value="240p">240P</option>
+            <option value="480p">480P</option>
+            <option value="720p">720P</option>
+        </select>
+        <input type="file" id="audio-file" style="display: none;" accept="audio/*" onchange="handleAudioSelect(event)">
+        <button style="color: black;" onclick="document.getElementById('audio-file').click()">Upload Audio</button>
+        <p id="audio-info"></p>
+        <input type="range" min="0" max="100" value="100" class="volume-slider" onchange="adjustVolume(this)">
+        <br>
+        <button id="play-btn" onclick="toggleAudio()" style="color:aquamarine;background-color: blue;">Play</button>
+    </div>
+</div>
+
+<div id="Preview" class="tabcontent">
+    <div id="preview" style="text-align: center;">
+        <video id="slideshow" class="video-preview" controls autoplay loop muted>
+            <source src="slideshow.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <br>
+        <button id = "play" onclick="togglePreviewPlay()">Play/Pause</button>
+        <button id="rewind" onclick="rewindPreview()">Rewind</button>
+    </div>
+</div>
+
+<script>
+    var audioPlayer = new Audio();
+    var audioFile = null;
+    var previewVideo = document.getElementById('slideshow');
+
+    function openTab(tabName) {
+        var i, tabcontent;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        document.getElementById(tabName).style.display = "block";
+    }
+
+    function handleDragOver(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        document.getElementsByClassName('image-drop-area')[0].classList.add('dragover');
+    }
+
+    function handleDrop(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        document.getElementsByClassName('image-drop-area')[0].classList.remove('dragover');
+
+        const files = event.dataTransfer.files;
+        if (files.length > 0) {
+            handleImages(files);
+        }
+    }
+
+    function handleFileSelect(event) {
+        const files = event.target.files;
+        if (files.length > 0) {
+            handleImages(files);
+        }
+    }
+
+    function handleImages(files) {
+        const preview = document.getElementById('preview');
+        const loading = document.getElementById('loading');
+        
+        loading.style.display = 'flex';
+
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                const imageContainer = document.createElement('div');
+                imageContainer.className = 'image-container';
+                imageContainer.innerHTML = `<div class="checkbox-container">
+                                                <input type="checkbox">
+                                            </div>
+                                            <img src="${e.target.result}" alt="Uploaded Image">
+                                            <select class="duration-dropdown" onchange="setDuration(this)">
+                                                <option value="3">3 seconds</option>
+                                                <option value="5">5 seconds</option>
+                                                <option value="10">10 seconds</option>
+                                            </select>
+                                            <button class="delete-btn" onclick="deleteImage(this.parentNode)">Delete</button>`;
+                preview.appendChild(imageContainer);
+
+                if (i === files.length - 1) {
+                    loading.style.display = 'none';
+                }
+            };
+
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function setDuration(select) {
+        const imageContainer = select.parentNode;
+        const duration = select.value;
+        console.log(`Duration set to ${duration} seconds for image.`);
+    }
+
+    function deleteImage(imageContainer) {
+        imageContainer.remove();
+    }
+
+    function handleAudioSelect(event) {
+        const file = event.target.files[0];
+        audioFile = file;
+        document.getElementById('audio-info').innerText = 'Selected audio file: ' + file.name;
+        audioPlayer.src = URL.createObjectURL(file);
+    }
+
+    function toggleAudio() {
+        if (audioPlayer.paused) {
+            audioPlayer.play();
+            document.getElementById('play-btn').innerText = 'Pause';
+        } else {
+            audioPlayer.pause();
+            document.getElementById('play-btn').innerText = 'Play';
+        }
+    }
+
+    function adjustVolume(slider) {
+        audioPlayer.volume = slider.value / 100;
+    }
+
+    function togglePreviewPlay() {
+        if (previewVideo.paused) {
+            previewVideo.play();
+        } else {
+            previewVideo.pause();
+        }
+    }
+
+    function rewindPreview() {
+        previewVideo.currentTime = 0;
+    }
+    openTab('Pictures');
+</script>
+
+
+
+</body>
+</html>
